@@ -1,0 +1,18 @@
+.question-wrapper{
+
+  .show-question{
+    border: 1px solid;
+    margin-bottom: 10px;
+    height: 330px;
+    .giveup-btn{
+      text-align: left;
+    }
+    .test{
+      height: 285px;
+    }
+  }
+  .question-content{
+    border: 1px solid;
+    height: 494px;
+  }
+}

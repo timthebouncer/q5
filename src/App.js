@@ -1,23 +1,21 @@
-import logo from './logo.svg';
+import React from 'react'
 import './App.css';
+import Participant from "@/component/participant/participant";
+import Question from "@/component/question/question"
+import ChatRoom from "@/component/chatRoom/chatRoom"
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="participant">
+        <Participant />
+      </div>
+      <div className="question">
+        <Question />
+      </div>
+      <div className="chatRoom">
+        <ChatRoom />
+      </div>
     </div>
   );
 }

@@ -1,11 +1,26 @@
 .chatRoom-wrapper{
   .chat-content{
     height: 780px;
+    overflow: auto;
+    display:flex;
+    padding: 5px 1rem;
+    flex-direction: column;
+    align-items: flex-start;
   }
   .chat-input{
+    display: inline-block;
+    position: relative;
     .input{
       height: 30px;
       width: 300px;
     }
   }
+
+}
+
+.chat-input::after {
+  position: absolute;
+  top: 6px;
+  right: .5em;
+  content: '送出';
 }

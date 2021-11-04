@@ -6,7 +6,7 @@ const SocketContext = createContext(null)
 
 
 const SocketProvider =({children})=>{
-    console.log(children,'666')
+    console.log(children,'children')
 
     const [ws,setWs] = useState(null)
     const[userList,setUserList] = useState([])
@@ -50,34 +50,41 @@ const SocketProvider =({children})=>{
             ws.on('messages', (data) => {
                 console.log(data,456)
 
-                // let joinOrLeave = ['JOIN', 'LEAVE']
-                // if (joinOrLeave.includes(data.type)) {
-                //     setMsgList((prev) => [...prev, data])
-                // } else if (data.type === 'OVER_THEN_RESTART') {
-                //     setUsers(data.users)
-                //     setQuest(data.question)
-                //     setMsgList(data.messages)
-                // } else if (data.type === 'BLESS_YOU') {
-                //     setMsgList((prev) => [
-                //         ...prev,
-                //         { ...data, type: data.blessType },
-                //     ])
-                // } else if (data.type === 'MESSAGE') {
-                //     setMsgList((prev) => [...prev, data])
-                // } else if (data.type === 'GIVE_UP') {
-                //     setMsgList((prev) => [...prev, data])
-                //     setQuest(data.newQuestion)
-                // }
+                let joinOrLeave = ['JOIN', 'LEAVE']
+                if (joinOrLeave.includes(data.type)) {
+                    setMsgList((prev) => [...prev, data])
+                } else if (data.type === 'OVER_THEN_RESTART') {
+                    setUserList(data.users)
+                    setQuestion(data.question)
+                    setMsgList(data.messages)
+                } else if (data.type === 'BLESS_YOU') {
+                    setMsgList((prev) => [
+                        ...prev,
+                        { ...data, type: data.blessType },
+                    ])
+                } else if (data.type === 'MESSAGE') {
+                    setMsgList((prev) => [...prev, data])
+                } else if (data.type === 'GIVE_UP') {
+                    setMsgList((prev) => [...prev, data])
+                    setQuestion(data.newQuestion)
+                }
             })
         }
     }, [ws])
 
+    const sendMsg = (data) => {
+        if (data === '')return
+
+        ws.emit('message', data)
+    }
+
+
     return(
-        <SocketContext.Provider value={{userList,question,msgList}}>
+        <SocketContext.Provider value={{userList,question,msgList,sendMsg}}>
             {children}
         </SocketContext.Provider>
     )
 }
 
-
+export default SocketProvider
 export {SocketContext}

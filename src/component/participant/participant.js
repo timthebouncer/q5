@@ -1,8 +1,12 @@
 import React from 'react'
 import './participant.scss'
 import Timer from "@/component/timer/timer";
+import {useContextSelector} from "use-context-selector";
+import {SocketContext} from "@/store/socketContext";
 
-const Participant=({userList})=>{
+const Participant=()=>{
+  const [userList]= useContextSelector(SocketContext,e=>[e.userList])
+
   return(
     <div>
       <div><Timer/></div>

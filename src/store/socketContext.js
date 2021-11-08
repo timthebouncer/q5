@@ -6,7 +6,6 @@ const SocketContext = createContext(null)
 
 
 const SocketProvider =({children})=>{
-    console.log(children,'children')
 
     const [ws,setWs] = useState(null)
     const[userList,setUserList] = useState([])
@@ -18,7 +17,7 @@ const SocketProvider =({children})=>{
             io('https://l8-upgrade-ws-api1.herokuapp.com/', {
                 extraHeaders: {
                     user_info: JSON.stringify({
-                        id: localStorage.getItem('userId'),
+                        id: localStorage.getItem('myId'),
                         name: '5278',
                     }),
                 },
@@ -41,17 +40,17 @@ const SocketProvider =({children})=>{
             ws.on('connection', (data) => {
                 let { users, question, messages, user } = data
 
-                localStorage.setItem('userId', user.id)
+                localStorage.setItem('myId', user.id)
                 setUserList(users)
                 setQuestion(question)
                 setMsgList(messages)
             })
 
             ws.on('messages', (data) => {
-                console.log(data,456)
+                console.log(data,123123)
 
-                let joinOrLeave = ['JOIN', 'LEAVE']
-                if (joinOrLeave.includes(data.type)) {
+                let inOrOut = ['JOIN', 'LEAVE']
+                if (inOrOut.includes(data.type)) {
                     setMsgList((prev) => [...prev, data])
                 } else if (data.type === 'OVER_THEN_RESTART') {
                     setUserList(data.users)
@@ -67,20 +66,39 @@ const SocketProvider =({children})=>{
                 } else if (data.type === 'GIVE_UP') {
                     setMsgList((prev) => [...prev, data])
                     setQuestion(data.newQuestion)
+                } else if(data.type === "ANSWER") {
+                    setMsgList((prev) => [...prev, data])
+                    setUserList((prev) => [...prev, {score:data.score}])
                 }
             })
         }
     }, [ws])
 
     const sendMsg = (data) => {
-        if (data === '')return
-
+        if (!data)return
         ws.emit('message', data)
+    }
+
+    const sentAnswer = (data) => {
+        if (!data)return
+        ws.emit('answer',data)
+    }
+
+    const giveALike=()=>{
+        ws.emit('bless')
+    }
+
+    const giveUpOnYou=()=>{
+        ws.emit('giveUp')
+    }
+
+    const restart = () => {
+        ws?.emit('restart')
     }
 
 
     return(
-        <SocketContext.Provider value={{userList,question,msgList,sendMsg}}>
+        <SocketContext.Provider value={{userList,question,msgList,sendMsg,sentAnswer}}>
             {children}
         </SocketContext.Provider>
     )

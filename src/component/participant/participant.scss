@@ -10,9 +10,13 @@
         width: 20px;
         height: 20px;
         position: relative;
-        top: -7px;
+        top: 14px;
+        left: -15px;
         z-index: 11111;
         background: white;
+    }
+    .userInfo{
+        display: flex;
     }
     .gender{
         border: 1px solid;
@@ -23,7 +27,7 @@
         left: -13px;
         line-height: 3;
     }
-    .status{
+    .statusOn{
         border: 1px;
         height: 5px;
         width: 5px;
@@ -33,9 +37,31 @@
         left: -16px;
         background: yellowgreen;
     }
+    .statusOff{
+        border: 1px;
+        height: 5px;
+        width: 5px;
+        border-radius: 5px;
+        position: relative;
+        top: 42px;
+        left: -16px;
+        background: grey;
+    }
+
     .name{
         line-height: 3;
         margin-right: 5px;
+    }
+    .rightPart{
+        display: flex;
+        flex-direction: column;
+        .action{
+            display: flex;
+            width: 50px;
+            .like{
+                margin-right: 10px;
+            }
+        }
     }
     .score{
         line-height: 3;

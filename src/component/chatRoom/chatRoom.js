@@ -8,14 +8,16 @@ import {SocketContext} from "@/store/socketContext";
 
 const ChatRoom=()=>{
   const [userInput, setUserInput] = useState('')
-    const [msgList,sendMsg]= useContextSelector(SocketContext,e=>[e.msgList,e.sendMsg])
+    const [msgList,sendMsg,sentAnswer]= useContextSelector(SocketContext,e=>[e.msgList,e.sendMsg,e.sentAnswer])
 
 
     const handleEnter=(e)=>{
-       if(e.key === 'Enter'){
-       sendMsg(userInput)
-
+        if(e.ctrlKey && e.key === 'Enter'){
+            sentAnswer(userInput)
          setUserInput('')
+       } else if(e.key === 'Enter'){
+            sendMsg(userInput)
+            setUserInput('')
        }
   }
 

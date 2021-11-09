@@ -5,13 +5,13 @@ import {SocketContext} from "@/store/socketContext";
 
 const Question=()=>{
 
-    const [question]= useContextSelector(SocketContext,e=>[e.question])
+    const [question,giveUpOnYou]= useContextSelector(SocketContext,e=>[e.question,e.giveUpOnYou])
 
     return(
     <div className='question-wrapper'>
         <div className='show-question'>
           <div className='giveup-btn'>
-            <button>放棄</button>
+            <button onClick={giveUpOnYou}>放棄</button>
           </div>
           <div className='test'>
             <h1>{question.title}</h1>

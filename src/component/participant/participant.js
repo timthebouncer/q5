@@ -6,7 +6,7 @@ import {SocketContext} from "@/store/socketContext";
 import {LikeOutlined,DislikeOutlined} from '@ant-design/icons'
 
 const Participant=()=>{
-  const [userList]= useContextSelector(SocketContext,e=>[e.userList])
+  const [userList,giveALike,giveADislike]= useContextSelector(SocketContext,e=>[e.userList,e.giveALike,e.giveADislike])
   const mySelf = localStorage.getItem('myId')
 
   return(
@@ -15,7 +15,6 @@ const Participant=()=>{
         <div className="participant-wrapper">
           {
               userList && userList.map(item=>{
-                console.log(item)
                   return(
                          <div key={item.id}>
                              <div className="rank">1</div>
@@ -30,8 +29,8 @@ const Participant=()=>{
                                   {
                                     mySelf !== item.id ?(
                                         <div className='action'>
-                                          <div className='like'><LikeOutlined /></div>
-                                          <div className='unlike'><DislikeOutlined /></div>
+                                          <div className='like' onClick={()=>giveALike('Good',item.id)}><LikeOutlined /></div>
+                                          <div className='unlike' onClick={()=>giveADislike('Bad',item.id)}><DislikeOutlined /></div>
                                         </div>
                                     ):<div></div>
                                   }

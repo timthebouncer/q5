@@ -68,7 +68,9 @@ const SocketProvider =({children})=>{
                     setQuestion(data.newQuestion)
                 } else if(data.type === "ANSWER") {
                     setMsgList((prev) => [...prev, data])
-                    setUserList((prev) => [...prev, {score:data.score}])
+                    // setUserList((prev) => {
+                    //     return [...prev, data.score]
+                    // })
                 }
             })
         }
@@ -84,8 +86,11 @@ const SocketProvider =({children})=>{
         ws.emit('answer',data)
     }
 
-    const giveALike=()=>{
-        ws.emit('bless')
+    const giveALike=({type,id})=>{
+        ws.emit('bless',{ type: type, userId: id })
+    }
+    const giveADislike=({type,id})=>{
+        ws.emit('bless',{ type: type, userId: id })
     }
 
     const giveUpOnYou=()=>{
@@ -98,7 +103,7 @@ const SocketProvider =({children})=>{
 
 
     return(
-        <SocketContext.Provider value={{userList,question,msgList,sendMsg,sentAnswer}}>
+        <SocketContext.Provider value={{userList,question,msgList,sendMsg,sentAnswer,giveUpOnYou,giveALike,giveADislike,restart}}>
             {children}
         </SocketContext.Provider>
     )
